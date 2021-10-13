@@ -193,7 +193,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
     test_primes_subsec()
     test_longest_perfect_squares()
     test_get_longest_all_palindromes()
+    main()
