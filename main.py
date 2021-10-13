@@ -6,7 +6,8 @@ def show_menu():
     print("1.Citire date")
     print("2.Determinati cea mai lunga subsecventa in care toate numerele sunt patrate perfecte.")
     print("3.Determinati cea mai lunga subsecventa in care toate numerele sunt prime")
-    print("4.Exit.")
+    print("4.Determinati cea mai lunga subsecventa in care toate numerele sunt palindrome")
+    print("5.Exit.")
 
 
 def get_perfect_squares(number):
@@ -125,21 +126,69 @@ def test_primes_subsec():
     assert get_longest_all_primes([11, 5, 3, 7, 2, 9, 4, 4]) == [11, 5, 3, 7, 2]
 
 
+def is_palindrome(n):
+    #Determina daca un numar este palindrom dau sau nu
+    copie_n = n
+    oglindit = 0
+    while n:
+        oglindit = oglindit * 10 + n % 10
+        n = n // 10
+    if( copie_n == oglindit ):
+        return True
+    return False
+
+
+def get_longest_all_palindromes(lst: List[int]):
+    """
+    Determina cea mai lunga subsecventa in care numerele sunt palindrome
+    :param lst: Lista de numere introdusa de la tastatura(numere naturale)
+    :return: Returneaza cea mai lunga subsecventa in care numerele sunt palindrome(o lista)
+    """
+
+    length = 0
+    list_copy = []
+    rezult_list = []
+    mx_length = 0
+    for i in range(len(lst)):
+        if is_palindrome(lst[i]) == True:
+            list_copy.append(lst[i])
+            length = length + 1
+        elif length > mx_length :
+            mx_length = length
+            rezult_list = list_copy[:]
+            length = 0
+            list_copy.clear()
+        else:
+            list_copy.clear()
+    if length > mx_length:
+            rezult_list = list_copy[:]
+    return rezult_list
+
+
+def test_get_longest_all_palindromes() :
+    assert get_longest_all_palindromes([11,232,122,5,7,9,121]) == [5,7,9,121]
+    assert get_longest_all_palindromes([1333,44,55,345,1,11,121,232,131]) == [1,11,121,232,131]
+    assert get_longest_all_palindromes([34,56,999,121,131,12334,1221]) == [999,121,131]
+
+
 def main():
     lst = []
     while True:
         show_menu()
-        optiune = int(input("Optiunea: "))
-        if optiune == 1:
+        optiune = (input("Optiunea: "))
+        if optiune == '1':
             lst = read_list()
-        if optiune == 2:
+        if optiune == '2':
             int_list = convert_list_str_to_int(lst)
             squares = get_longest_all_perfect_squares(int_list)
             print(f"Cea mai lunga subsecventa de patrate perfecte este: {squares}")
-        if optiune == 3:
+        if optiune == '3':
             int2_list = convert_list_str_to_int(lst)
             print(f"Cea mai lunga subsecventa de numere prime este: {get_longest_all_primes(int2_list)}")
-        if optiune == 4:
+        if optiune == '4':
+            int3_list = convert_list_str_to_int(lst)
+            print(f"Cea mai lunga subsecventa de numere palindrome este: {get_longest_all_palindromes(int3_list)}")
+        if optiune == '5':
             break
 
 
@@ -147,3 +196,4 @@ if __name__ == '__main__':
     main()
     test_primes_subsec()
     test_longest_perfect_squares()
+    test_get_longest_all_palindromes()
